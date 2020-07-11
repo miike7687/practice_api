@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Practice API</title>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+    </style>
+  </head>
+  <body id="body">
+    <button id="joke-button">CHUCK NORRIS JOKE!</button>
+    <div id="text"></div>
+    <button id="clear">CLEAR JOKE!</button>
+    <h2>LOVE PERCENTAGE TABLE</h2>
+
+    <table>
+      <tr>
+        <th>First Name</th>
+        <th>Second Name</th>
+        <th>Percentage</th>
+        <th>Result</th>
+      </tr>
+      <tr>
+        <td>
+          <textarea
+            id="first-name"
+            placeholder="Enter First name here"
+          ></textarea>
+        </td>
+        <td>
+          <textarea
+            id="second-name"
+            placeholder="Enter Second name here"
+          ></textarea>
+        </td>
+        <td id="percentage-area"></td>
+        <td id="result-area"></td>
+      </tr>
+      <tr>
+        <button id="love-button">CALCULATE LOVE</button>
+      </tr>
+    </table>
+    <script>
+      var settings = {
+        async: true,
+        crossDomain: true,
+        url:
+          "https://love-calculator.p.rapidapi.com/getPercentage?fname=Mike&sname=Alyssa",
+        method: "GET",
+        headers: {
+          "x-rapidapi-host": "love-calculator.p.rapidapi.com",
+          "x-rapidapi-key":
+            "1aa855e579msh3cc56d7cd98d205p163c23jsn746e5b8443b5",
+        },
+      };
+
+      $.ajax(settings).done(function (response) {
+        // console.log(response);
+        $("#love-button").on("click", function () {
+          response.fname = $("#first-name").val();
+          console.log(response.fname);
+          console.log(response);
+          //   console.log("First Name: " + fname);
+          //   sname = $("#second-name").val();
+          //   console.log("Second Name: " + sname);
+        });
+
+        // var secondName = response.sname;
+        // var percentage = response.percentage;
+        // var results = response.results;
+      });
+
+      var settings = {
+        async: true,
+        crossDomain: true,
+        url:
+          "https://matchilling-chuck-norris-jokes-v1.p.rapidapi.com/jokes/random",
+        method: "GET",
+        headers: {
+          "x-rapidapi-host": "matchilling-chuck-norris-jokes-v1.p.rapidapi.com",
+          "x-rapidapi-key":
+            "1aa855e579msh3cc56d7cd98d205p163c23jsn746e5b8443b5",
+          accept: "application/json",
+        },
+      };
+
+      $.ajax(settings).done(function (response) {
+        console.log(response.value);
+        var joke = response.value;
+        $("#joke-button").on("click", function () {
+          $("#text").text(joke);
+        });
+        $("#clear").on("click", function () {
+          $("#text").text("");
+        });
+      });
+    </script>
+  </body>
+</html>
