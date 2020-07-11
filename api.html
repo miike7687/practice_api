@@ -71,46 +71,52 @@
         },
       };
 
-      $.ajax(settings).done(function (response) {
-        // console.log(response);
-        $("#love-button").on("click", function () {
-          response.fname = $("#first-name").val();
-          console.log(response.fname);
+      $("#love-button").on("click", function () {
+        var firstName = $("#first-name").val();
+        var secondName = $("#second-name").val();
+        console.log(firstName);
+        console.log(secondName);
+
+        $.ajax(settings).done(function (response) {
+          response.fname = firstName;
+          response.sname = secondName;
           console.log(response);
-          //   console.log("First Name: " + fname);
-          //   sname = $("#second-name").val();
-          //   console.log("Second Name: " + sname);
-        });
-
-        // var secondName = response.sname;
-        // var percentage = response.percentage;
-        // var results = response.results;
-      });
-
-      var settings = {
-        async: true,
-        crossDomain: true,
-        url:
-          "https://matchilling-chuck-norris-jokes-v1.p.rapidapi.com/jokes/random",
-        method: "GET",
-        headers: {
-          "x-rapidapi-host": "matchilling-chuck-norris-jokes-v1.p.rapidapi.com",
-          "x-rapidapi-key":
-            "1aa855e579msh3cc56d7cd98d205p163c23jsn746e5b8443b5",
-          accept: "application/json",
-        },
-      };
-
-      $.ajax(settings).done(function (response) {
-        console.log(response.value);
-        var joke = response.value;
-        $("#joke-button").on("click", function () {
-          $("#text").text(joke);
-        });
-        $("#clear").on("click", function () {
-          $("#text").text("");
         });
       });
+
+      // $.ajax(settings).done(function (response) {
+      //   console.log(response);
+
+      // });
+
+      // var secondName = response.sname;
+      // var percentage = response.percentage;
+      // var results = response.results;
+
+      // var settings = {
+      //   async: true,
+      //   crossDomain: true,
+      //   url:
+      //     "https://matchilling-chuck-norris-jokes-v1.p.rapidapi.com/jokes/random",
+      //   method: "GET",
+      //   headers: {
+      //     "x-rapidapi-host": "matchilling-chuck-norris-jokes-v1.p.rapidapi.com",
+      //     "x-rapidapi-key":
+      //       "1aa855e579msh3cc56d7cd98d205p163c23jsn746e5b8443b5",
+      //     accept: "application/json",
+      //   },
+      // };
+
+      // $.ajax(settings).done(function (response) {
+      //   // console.log(response.value);
+      //   var joke = response.value;
+      //   $("#joke-button").on("click", function () {
+      //     $("#text").text(joke);
+      //   });
+      //   $("#clear").on("click", function () {
+      //     $("#text").text("");
+      //   });
+      // });
     </script>
   </body>
 </html>
