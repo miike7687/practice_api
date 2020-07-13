@@ -6,117 +6,160 @@
     <title>Practice API</title>
     <script src="https://code.jquery.com/jquery.js"></script>
     <style>
-      table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
+      body {
+        background-color: aqua;
       }
-
-      td,
-      th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
+      h3 {
+        text-align: center;
       }
-
-      tr:nth-child(even) {
-        background-color: #dddddd;
+      #trump-quote,
+      #text {
+        font-size: 24px;
+        color: crimson;
+        text-align: center;
+        font-weight: bold;
+        margin-top: 30px;
+      }
+      #joke-button {
+        display: block;
+        margin: auto;
+      }
+      #number-info {
+        clear: float;
+        font-size: 24px;
+        margin-top: 30px;
+        color: crimson;
+        font-weight: bold;
+      }
+      .number-button {
+        margin-bottom: 15px;
       }
     </style>
   </head>
   <body id="body">
+    <h3>Click the button to get a random CHUCK NORRIS JOKE!</h3>
     <button id="joke-button">CHUCK NORRIS JOKE!</button>
     <div id="text"></div>
-    <button id="clear">CLEAR JOKE!</button>
-    <h2>LOVE PERCENTAGE TABLE</h2>
+    <hr />
+    <h3>
+      Click any one of the buttons below to get a random math fact about that
+      number!
+    </h3>
+    <br />
 
-    <table>
-      <tr>
-        <th>First Name</th>
-        <th>Second Name</th>
-        <th>Percentage</th>
-        <th>Result</th>
-      </tr>
-      <tr>
-        <td>
-          <textarea
-            id="first-name"
-            placeholder="Enter First name here"
-          ></textarea>
-        </td>
-        <td>
-          <textarea
-            id="second-name"
-            placeholder="Enter Second name here"
-          ></textarea>
-        </td>
-        <td id="percentage-area"></td>
-        <td id="result-area"></td>
-      </tr>
-      <tr>
-        <button id="love-button">CALCULATE LOVE</button>
-      </tr>
-    </table>
+    <br />
+    <!-- <button class="number-button" id="button-2">2</button>
+    <br />
+    <button class="number-button" id="button-3">3</button>
+    <br />
+    <button class="number-button" id="button-4">4</button>
+    <br />
+    <button class="number-button" id="button-5">5</button>
+    <br />
+    <div id="number-info"></div>
+    <hr /> -->
+    <h3>Click the button to get a random silly Donald Trump Quote!</h3>
+    <button id="quote-button">TRUMP QUOTE</button>
+    <div id="trump-quote"></div>
+
+    <textarea id="text-area"></textarea>
+    <button class="number-button" id="button-1">MATH FACT</button>
+    <div id="number-fact"></div>
+
     <script>
       var settings = {
         async: true,
         crossDomain: true,
         url:
-          "https://love-calculator.p.rapidapi.com/getPercentage?fname=Mike&sname=Alyssa",
+          "https://matchilling-chuck-norris-jokes-v1.p.rapidapi.com/jokes/random",
         method: "GET",
         headers: {
-          "x-rapidapi-host": "love-calculator.p.rapidapi.com",
+          "x-rapidapi-host": "matchilling-chuck-norris-jokes-v1.p.rapidapi.com",
+          "x-rapidapi-key":
+            "1aa855e579msh3cc56d7cd98d205p163c23jsn746e5b8443b5",
+          accept: "application/json",
+        },
+      };
+
+      $("#joke-button").on("click", function () {
+        $.ajax(settings).done(function (response) {
+          // console.log(response);
+          console.log(response.value);
+          var joke = response.value;
+          $("#text").text(joke);
+        });
+      });
+
+      var newSettings = {
+        async: true,
+        crossDomain: true,
+        url: "https://numbersapi.p.rapidapi.com/1/math?fragment=true&json=true",
+        method: "GET",
+        headers: {
+          "x-rapidapi-host": "numbersapi.p.rapidapi.com",
           "x-rapidapi-key":
             "1aa855e579msh3cc56d7cd98d205p163c23jsn746e5b8443b5",
         },
       };
 
-      $("#love-button").on("click", function () {
-        var firstName = $("#first-name").val();
-        var secondName = $("#second-name").val();
-        console.log(firstName);
-        console.log(secondName);
+      // var newUrl = [
+      //   "https://numbersapi.p.rapidapi.com/1/math?fragment=true&json=true",
+      //   "https://numbersapi.p.rapidapi.com/2/math?fragment=true&json=true",
+      //   "https://numbersapi.p.rapidapi.com/3/math?fragment=true&json=true",
+      //   "https://numbersapi.p.rapidapi.com/4/math?fragment=true&json=true",
+      //   "https://numbersapi.p.rapidapi.com/5/math?fragment=true&json=true",
+      // ];
 
-        $.ajax(settings).done(function (response) {
-          response.fname = firstName;
-          response.sname = secondName;
-          console.log(response);
+      $(".number-button").on("click", function () {
+        // remember which button the user clicked
+        // go through array of URLs
+        var num = $("#text-area").val();
+        var brandNewUrl =
+          "https://numbersapi.p.rapidapi.com/" +
+          num +
+          "/math?fragment=true&json=true";
+        newSettings.url = brandNewUrl;
+        console.log(brandNewUrl);
+        $.ajax(newSettings).done(function (result) {
+          $("#number-fact").text(result.text);
         });
+
+        // var buttonValue = $(this);
+        // var buttonNumber = buttonValue.attr("id").split("-")[1];
+        // console.log(buttonNumber);
+        // for (var i = 0; i < newUrl.length; i++) {
+        //   newSettings.url = newUrl[i];
+        //   // console.log(newSettings.url);
+        //   var numberFact = newSettings.url.split("/")[3];
+        //   console.log(numberFact);
+        //   if (buttonNumber === numberFact) {
+        //     console.log("great");
+        //     $.ajax(newSettings).done(function (result) {
+        //       $("#number-info").text(result.text);
+        // //     });
+        //   }
+        // }
       });
 
-      // $.ajax(settings).done(function (response) {
-      //   console.log(response);
+      var quoteSettings = {
+        async: true,
+        crossDomain: true,
+        url: "https://matchilling-tronald-dump-v1.p.rapidapi.com/random/quote",
+        method: "GET",
+        headers: {
+          "x-rapidapi-host": "matchilling-tronald-dump-v1.p.rapidapi.com",
+          "x-rapidapi-key":
+            "1aa855e579msh3cc56d7cd98d205p163c23jsn746e5b8443b5",
+          accept: "application/hal+json",
+        },
+      };
 
-      // });
-
-      // var secondName = response.sname;
-      // var percentage = response.percentage;
-      // var results = response.results;
-
-      // var settings = {
-      //   async: true,
-      //   crossDomain: true,
-      //   url:
-      //     "https://matchilling-chuck-norris-jokes-v1.p.rapidapi.com/jokes/random",
-      //   method: "GET",
-      //   headers: {
-      //     "x-rapidapi-host": "matchilling-chuck-norris-jokes-v1.p.rapidapi.com",
-      //     "x-rapidapi-key":
-      //       "1aa855e579msh3cc56d7cd98d205p163c23jsn746e5b8443b5",
-      //     accept: "application/json",
-      //   },
-      // };
-
-      // $.ajax(settings).done(function (response) {
-      //   // console.log(response.value);
-      //   var joke = response.value;
-      //   $("#joke-button").on("click", function () {
-      //     $("#text").text(joke);
-      //   });
-      //   $("#clear").on("click", function () {
-      //     $("#text").text("");
-      //   });
-      // });
+      $("#quote-button").on("click", function () {
+        $.ajax(quoteSettings).done(function (quote) {
+          $("#trump-quote").text(quote.value);
+          console.log(quote.value);
+        });
+      });
     </script>
   </body>
 </html>
